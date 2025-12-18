@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/badge/license-MIT-brightgreen?style=for-the-badge" alt="License" />
 </p>
 
-<h1 align="center">Agent Skills</h1>
+<h1 align="center">Ai Agent Skills</h1>
 
 <p align="center">
   <strong>The first universal skill repository for AI agents.</strong><br/>
