@@ -2,11 +2,20 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 const os = require('os');
 
 const SKILLS_DIR = path.join(__dirname, 'skills');
-const CLAUDE_SKILLS_DIR = path.join(os.homedir(), '.claude', 'skills');
+
+// Agent-specific skill directories
+const AGENT_PATHS = {
+  claude: path.join(os.homedir(), '.claude', 'skills'),
+  cursor: path.join(process.cwd(), '.cursor', 'skills'),
+  amp: path.join(os.homedir(), '.amp', 'skills'),
+  vscode: path.join(process.cwd(), '.vscode', 'skills'),
+  project: path.join(process.cwd(), '.skills'),
+  goose: path.join(os.homedir(), '.config', 'goose', 'skills'),
+  opencode: path.join(os.homedir(), '.opencode', 'skills'),
+};
 
 const colors = {
   reset: '\x1b[0m',
@@ -42,9 +51,25 @@ function getAvailableSkills() {
   });
 }
 
-function installSkill(skillName) {
+function parseArgs(args) {
+  const result = { command: null, param: null, agent: 'claude' };
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--agent' || args[i] === '-a') {
+      result.agent = args[i + 1] || 'claude';
+      i++;
+    } else if (!result.command) {
+      result.command = args[i];
+    } else if (!result.param) {
+      result.param = args[i];
+    }
+  }
+
+  return result;
+}
+
+function installSkill(skillName, agent = 'claude') {
   const sourcePath = path.join(SKILLS_DIR, skillName);
-  const destPath = path.join(CLAUDE_SKILLS_DIR, skillName);
 
   if (!fs.existsSync(sourcePath)) {
     error(`Skill "${skillName}" not found.`);
@@ -53,18 +78,52 @@ function installSkill(skillName) {
     return false;
   }
 
-  // Create .claude/skills directory if it doesn't exist
-  if (!fs.existsSync(CLAUDE_SKILLS_DIR)) {
-    fs.mkdirSync(CLAUDE_SKILLS_DIR, { recursive: true });
+  // Get the appropriate destination path for the agent
+  const destDir = AGENT_PATHS[agent] || AGENT_PATHS.claude;
+  const destPath = path.join(destDir, skillName);
+
+  // Create skills directory if it doesn't exist
+  if (!fs.existsSync(destDir)) {
+    fs.mkdirSync(destDir, { recursive: true });
   }
 
   // Copy skill directory
   copyDir(sourcePath, destPath);
 
   success(`\nInstalled: ${skillName}`);
+  info(`Agent: ${agent}`);
   info(`Location: ${destPath}`);
-  log(`\nThe skill is now available in Claude Code, Cursor, and other compatible agents.`);
+
+  // Show agent-specific instructions
+  log('');
+  showAgentInstructions(agent, skillName, destPath);
+
   return true;
+}
+
+function showAgentInstructions(agent, skillName, destPath) {
+  switch (agent) {
+    case 'claude':
+      log(`${colors.dim}The skill is now available in Claude Code.${colors.reset}`);
+      log(`${colors.dim}Just mention "${skillName}" in your prompt and Claude will use it.${colors.reset}`);
+      break;
+    case 'cursor':
+      log(`${colors.dim}The skill is installed in your project's .cursor/skills/ folder.${colors.reset}`);
+      log(`${colors.dim}Cursor will automatically detect and use it.${colors.reset}`);
+      break;
+    case 'amp':
+      log(`${colors.dim}The skill is now available in Amp.${colors.reset}`);
+      break;
+    case 'vscode':
+      log(`${colors.dim}The skill is installed in your project's .vscode/skills/ folder.${colors.reset}`);
+      break;
+    case 'project':
+      log(`${colors.dim}The skill is installed in .skills/ in your current directory.${colors.reset}`);
+      log(`${colors.dim}This makes it portable across all compatible agents.${colors.reset}`);
+      break;
+    default:
+      log(`${colors.dim}The skill is ready to use with ${agent}.${colors.reset}`);
+  }
 }
 
 function copyDir(src, dest) {
@@ -115,7 +174,7 @@ function listSkills() {
   });
 
   log(`${colors.dim}* = featured skill${colors.reset}`);
-  log(`\nInstall: ${colors.cyan}npx ai-agent-skills install <skill-name>${colors.reset}`);
+  log(`\nInstall: ${colors.cyan}npx ai-agent-skills install <skill-name> [--agent <agent>]${colors.reset}`);
 }
 
 function searchSkills(query) {
@@ -151,20 +210,26 @@ ${colors.bold}Usage:${colors.reset}
   npx ai-agent-skills <command> [options]
 
 ${colors.bold}Commands:${colors.reset}
-  ${colors.green}list${colors.reset}              List all available skills
-  ${colors.green}install <name>${colors.reset}   Install a skill to ~/.claude/skills/
-  ${colors.green}search <query>${colors.reset}   Search skills by name, description, or category
-  ${colors.green}info <name>${colors.reset}      Show detailed info about a skill
-  ${colors.green}help${colors.reset}              Show this help message
+  ${colors.green}list${colors.reset}                          List all available skills
+  ${colors.green}install <name> [--agent <agent>]${colors.reset}  Install a skill
+  ${colors.green}search <query>${colors.reset}                 Search skills
+  ${colors.green}info <name>${colors.reset}                    Show skill details
+  ${colors.green}help${colors.reset}                           Show this help
+
+${colors.bold}Agents:${colors.reset}
+  ${colors.cyan}claude${colors.reset}   (default) ~/.claude/skills/
+  ${colors.cyan}cursor${colors.reset}   .cursor/skills/ in current project
+  ${colors.cyan}amp${colors.reset}      ~/.amp/skills/
+  ${colors.cyan}vscode${colors.reset}   .vscode/skills/ in current project
+  ${colors.cyan}goose${colors.reset}    ~/.config/goose/skills/
+  ${colors.cyan}opencode${colors.reset} ~/.opencode/skills/
+  ${colors.cyan}project${colors.reset}  .skills/ in current directory (portable)
 
 ${colors.bold}Examples:${colors.reset}
-  npx ai-agent-skills list
-  npx ai-agent-skills install pdf
   npx ai-agent-skills install frontend-design
+  npx ai-agent-skills install frontend-design --agent cursor
+  npx ai-agent-skills install pdf --agent project
   npx ai-agent-skills search excel
-
-${colors.bold}Compatible with:${colors.reset}
-  Claude Code, Cursor, Amp, VS Code, GitHub Copilot, Goose, Letta, OpenCode
 
 ${colors.bold}More info:${colors.reset}
   https://skillcreator.ai/discover
@@ -195,15 +260,15 @@ ${colors.bold}Downloads:${colors.reset} ${skill.downloads.toLocaleString()}
 
 ${colors.bold}Install:${colors.reset}
   npx ai-agent-skills install ${skill.name}
+  npx ai-agent-skills install ${skill.name} --agent cursor
 `);
 }
 
 // Main CLI
 const args = process.argv.slice(2);
-const command = args[0] || 'help';
-const param = args[1];
+const { command, param, agent } = parseArgs(args);
 
-switch (command) {
+switch (command || 'help') {
   case 'list':
   case 'ls':
     listSkills();
@@ -212,16 +277,16 @@ switch (command) {
   case 'i':
     if (!param) {
       error('Please specify a skill name.');
-      log('Usage: npx agent-skills install <skill-name>');
+      log('Usage: npx ai-agent-skills install <skill-name> [--agent <agent>]');
       process.exit(1);
     }
-    installSkill(param);
+    installSkill(param, agent);
     break;
   case 'search':
   case 's':
     if (!param) {
       error('Please specify a search query.');
-      log('Usage: npx agent-skills search <query>');
+      log('Usage: npx ai-agent-skills search <query>');
       process.exit(1);
     }
     searchSkills(param);
@@ -229,7 +294,7 @@ switch (command) {
   case 'info':
     if (!param) {
       error('Please specify a skill name.');
-      log('Usage: npx agent-skills info <skill-name>');
+      log('Usage: npx ai-agent-skills info <skill-name>');
       process.exit(1);
     }
     showInfo(param);
@@ -242,7 +307,7 @@ switch (command) {
   default:
     // If command looks like a skill name, try to install it
     if (getAvailableSkills().includes(command)) {
-      installSkill(command);
+      installSkill(command, agent);
     } else {
       error(`Unknown command: ${command}`);
       showHelp();

@@ -28,10 +28,15 @@
 ## Quick Start
 
 ```bash
+# Install for Claude Code (default)
 npx ai-agent-skills install frontend-design
+
+# Install for other agents
+npx ai-agent-skills install frontend-design --agent cursor
+npx ai-agent-skills install frontend-design --agent amp
 ```
 
-That's it. The skill is now available in Claude Code, Cursor, Amp, VS Code, and all compatible agents.
+That's it. The skill installs to the right location for your agent automatically.
 
 ## Why This Exists
 
@@ -89,8 +94,11 @@ Works with **Claude Code**, **Cursor**, **Amp**, **VS Code**, **GitHub Copilot**
 # List all skills
 npx ai-agent-skills list
 
-# Install a skill
+# Install a skill (defaults to Claude Code)
 npx ai-agent-skills install <name>
+
+# Install for a specific agent
+npx ai-agent-skills install <name> --agent <agent>
 
 # Search skills
 npx ai-agent-skills search <query>
@@ -98,6 +106,18 @@ npx ai-agent-skills search <query>
 # Get skill details
 npx ai-agent-skills info <name>
 ```
+
+### Supported Agents
+
+| Agent | Flag | Install Location |
+|-------|------|------------------|
+| Claude Code | `--agent claude` (default) | `~/.claude/skills/` |
+| Cursor | `--agent cursor` | `.cursor/skills/` |
+| Amp | `--agent amp` | `~/.amp/skills/` |
+| VS Code | `--agent vscode` | `.vscode/skills/` |
+| Goose | `--agent goose` | `~/.config/goose/skills/` |
+| OpenCode | `--agent opencode` | `~/.opencode/skills/` |
+| Portable | `--agent project` | `.skills/` (works with any agent) |
 
 ## Manual Install
 
