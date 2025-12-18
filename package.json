@@ -1,10 +1,10 @@
 {
-  "name": "agent-skills",
+  "name": "ai-agent-skills",
   "version": "1.0.0",
-  "description": "Install curated AI agent skills with one command",
+  "description": "Install curated AI agent skills with one command. Works with Claude Code, Cursor, Amp, VS Code, and all Agent Skills compatible tools.",
   "main": "cli.js",
   "bin": {
-    "agent-skills": "./cli.js",
+    "ai-agent-skills": "./cli.js",
     "skills": "./cli.js"
   },
   "scripts": {

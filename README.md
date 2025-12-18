@@ -22,7 +22,7 @@
 ## Quick Start
 
 ```bash
-npx agent-skills install pdf
+npx ai-agent-skills install pdf
 ```
 
 That's it. The skill is now available in Claude Code, Cursor, Amp, VS Code, and all compatible agents.
@@ -89,16 +89,16 @@ This repo curates the best skills in one place. Quality over quantity. Each skil
 
 ```bash
 # List all skills
-npx agent-skills list
+npx ai-agent-skills list
 
 # Install a skill
-npx agent-skills install <name>
+npx ai-agent-skills install <name>
 
 # Search skills
-npx agent-skills search <query>
+npx ai-agent-skills search <query>
 
 # Get skill details
-npx agent-skills info <name>
+npx ai-agent-skills info <name>
 ```
 
 ## Manual Install

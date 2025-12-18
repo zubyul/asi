@@ -115,7 +115,7 @@ function listSkills() {
   });
 
   log(`${colors.dim}* = featured skill${colors.reset}`);
-  log(`\nInstall: ${colors.cyan}npx agent-skills install <skill-name>${colors.reset}`);
+  log(`\nInstall: ${colors.cyan}npx ai-agent-skills install <skill-name>${colors.reset}`);
 }
 
 function searchSkills(query) {
@@ -144,11 +144,11 @@ function searchSkills(query) {
 
 function showHelp() {
   log(`
-${colors.bold}Agent Skills CLI${colors.reset}
-Install curated AI agent skills with one command.
+${colors.bold}AI Agent Skills${colors.reset}
+The universal skill repository for AI agents.
 
 ${colors.bold}Usage:${colors.reset}
-  npx agent-skills <command> [options]
+  npx ai-agent-skills <command> [options]
 
 ${colors.bold}Commands:${colors.reset}
   ${colors.green}list${colors.reset}              List all available skills
@@ -158,10 +158,13 @@ ${colors.bold}Commands:${colors.reset}
   ${colors.green}help${colors.reset}              Show this help message
 
 ${colors.bold}Examples:${colors.reset}
-  npx agent-skills list
-  npx agent-skills install pdf
-  npx agent-skills install frontend-design
-  npx agent-skills search excel
+  npx ai-agent-skills list
+  npx ai-agent-skills install pdf
+  npx ai-agent-skills install frontend-design
+  npx ai-agent-skills search excel
+
+${colors.bold}Compatible with:${colors.reset}
+  Claude Code, Cursor, Amp, VS Code, GitHub Copilot, Goose, Letta, OpenCode
 
 ${colors.bold}More info:${colors.reset}
   https://skillcreator.ai/discover
@@ -191,7 +194,7 @@ ${colors.bold}Stars:${colors.reset}     ${skill.stars.toLocaleString()}
 ${colors.bold}Downloads:${colors.reset} ${skill.downloads.toLocaleString()}
 
 ${colors.bold}Install:${colors.reset}
-  npx agent-skills install ${skill.name}
+  npx ai-agent-skills install ${skill.name}
 `);
 }
 
