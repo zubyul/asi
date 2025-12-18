@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "updated": "2025-12-18T00:00:00Z",
-  "total": 21,
+  "total": 22,
   "skills": [
     {
       "name": "frontend-design",
@@ -273,6 +273,19 @@
       "path": "skills/jira-issues",
       "stars": 100,
       "downloads": 50,
+      "featured": true,
+      "verified": true
+    },
+    {
+      "name": "qa-regression",
+      "description": "Automate QA regression testing with reusable Playwright tests. Login flows, dashboard checks, user creation, and composable test suites.",
+      "category": "productivity",
+      "author": "skillcreatorai",
+      "source": "skillcreatorai/Ai-Agent-Skills",
+      "license": "MIT",
+      "path": "skills/qa-regression",
+      "stars": 100,
+      "downloads": 0,
       "featured": true,
       "verified": true
     }
