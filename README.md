@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://skillcreator.ai/discover"><strong>Browse Skills</strong></a> ·
+  <a href="https://skillcreator.ai/explore"><strong>Browse Skills</strong></a> ·
   <a href="https://skillcreator.ai/build"><strong>Create Skills</strong></a> ·
   <a href="https://agentskills.io"><strong>Specification</strong></a> ·
   <a href="https://x.com/skillcreatorai"><strong>Follow Updates</strong></a>
