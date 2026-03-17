@@ -89,6 +89,69 @@ The boundary between N and N+1 is exactly 1 flick.
 No sub-flick events are perceptually distinguishable.
 ```
 
+## The Invisible Clock Paradox
+
+> "A clock that ticks every flick is invisible."
+
+This is the foundational observation. A flick-rate clock (705.6 MHz) is **beneath perceptual resolution** — you cannot see it tick. It operates at the interference rate: not the rate at which you blink, but the rate at which you *perceive perceiving*. It's the meta-perceptual refresh — the clock that tells your visual system when one frame ends and the next begins, but which itself can never be seen as a frame.
+
+This is why the flick is the right unit for BCI: it's the **temporal infrastructure** that perception runs on top of, not within.
+
+### The Perceiver as Information Bottleneck
+
+The deeper insight: the perceiver is the bottleneck, not the signal.
+
+```
+Stimuli arrive continuously (photons, pressure waves, neural spikes)
+                    │
+                    ▼
+    ┌──────────────────────────────┐
+    │   PERCEIVER (bottleneck)      │
+    │                              │
+    │   Can only "finish" one      │
+    │   perceptual frame before    │
+    │   the next batch arrives.    │
+    │                              │
+    │   New data forces old data   │
+    │   to either:                 │
+    │     (a) commit to memory     │
+    │     (b) be overwritten       │
+    │                              │
+    │   This is the "good pressure"│
+    │   — the temporal forcing     │
+    │   function that makes        │
+    │   perception lossy but real- │
+    │   time.                      │
+    └──────────────────────────────┘
+                    │
+                    ▼
+           Perceptual frame N
+           (compressed, committed)
+```
+
+The flick is the tick of this bottleneck. It's the minimum interval between "you must decide what you saw" events. Below the flick, stimuli accumulate. At the flick boundary, the bottleneck forces a commit-or-discard decision.
+
+In BCI terms: the flick boundary is where the neural decoder must emit its classification. Wait longer and you lose real-time. Emit earlier and you're sub-flick — no display can show it, no audio system can play it.
+
+### Color Round-Trip and Channel Noise
+
+When a color is emitted by one screen, captured by a camera, and displayed on a second screen, the round-trip introduces noise:
+
+```
+Screen A (emit color C)
+    → photons through air
+    → camera sensor (Bayer filter, gain, white balance)
+    → ISP pipeline (demosaic, gamma, compression)
+    → network transport (lossy codec)
+    → Screen B (display C' ≠ C)
+
+C' = C + noise(camera) + noise(display) + noise(compression)
+```
+
+This is a **physical reafference loop**. The efference copy is C (the color you sent). The reafference is C' (the color you see come back). The corollary discharge comparator asks: is C' close enough to C to suppress, or different enough to amplify?
+
+The flick matters here because the **temporal alignment** of when you sample C vs when you observe C' determines whether the comparison is valid. If the camera samples at 30fps and the display runs at 60fps, the comparison needs a shared temporal reference — and the flick is the only unit that evenly divides both.
+
 ## The Flick Clock Visualization
 
 A split-flap display where each digit flick is synchronized to real time — the visual metaphor for discrete perceptual quanta replacing each other.
