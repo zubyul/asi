@@ -125,3 +125,132 @@ D (delivery)     ──BLOCKS──► E (assembly)
 - [ ] Confirm closet space availability for previous resident's items
 - [ ] Arrange carpet delivery/pickup if needed
 - [ ] Be present or assign point person for delivery window
+
+---
+
+## Open Location Code Zig-Zag Route Optimization
+
+Starting from InterContinental SF, optimized zig-zag through sourcing stops
+to 1017 Leavenworth. Route minimizes backtracking while hitting all supply points.
+
+### Location Plus Codes
+
+| Stop | Location | Plus Code (approx) | Coordinates |
+|------|----------|---------------------|-------------|
+| **START** | InterContinental SF, 888 Howard St | `849VQJC5+QX` | 37.7834, -122.4030 |
+| **1** | Target Metreon, 789 Mission St | `849VQJC7+4G` | 37.7852, -122.4034 |
+| **2** | IKEA SF, 945 Market St | `849VQJC6+2M` | 37.7838, -122.4098 |
+| **3** | Community Thrift, 623 Valencia St | `849VQJX3+6C` | 37.7640, -122.4215 |
+| **END** | 1017 Leavenworth St | `849VQJF8+XP` | 37.7899, -122.4145 |
+
+### Zig-Zag Route Map
+
+```
+                                    N
+                                    ↑
+    ┌─────────────────────────────────────────────────┐
+    │                                                 │
+    │   ★ END: 1017 Leavenworth  849VQJF8+XP         │
+    │   │  (Nob Hill)                                 │
+    │   │                                             │
+    │   │  ↑ 0.8 mi uphill (~15 min walk / 5 min Uber)│
+    │   │                                             │
+    │   ├──── ZIG 3 ──────────────────────────────┐   │
+    │   │                                         │   │
+    │   │  ② IKEA SF              ① Target Metreon│   │
+    │   │  945 Market St          789 Mission St  │   │
+    │   │  849VQJC6+2M            849VQJC7+4G     │   │
+    │   │  ← 0.1 mi →            ← 0.1 mi →      │   │
+    │   │                                         │   │
+    │   ├──── ZIG 1 (Market St corridor) ─────────┤   │
+    │   │                                         │   │
+    │   │  ◎ START: InterContinental               │   │
+    │   │  888 Howard St                           │   │
+    │   │  849VQJC5+QX                             │   │
+    │   │                                         │   │
+    │   ├──── ZAG 2 (south to Mission) ───────────┘   │
+    │   │                                             │
+    │   │  ③ Community Thrift                         │
+    │   │  623 Valencia St                            │
+    │   │  849VQJX3+6C                                │
+    │   │  (only if hunting deals on used furniture)  │
+    │   │                                             │
+    └─────────────────────────────────────────────────┘
+```
+
+### Optimized Zig-Zag Sequence
+
+```
+◎ InterContinental (888 Howard)
+│
+├─ ZIG 1: Walk north 0.1 mi → ① Target Metreon (789 Mission)
+│  BUY: cleaning supplies, boxes, bags, labels, basic linens
+│  TIME: ~20 min browse
+│  COST: $30–$60
+│
+├─ ZIG 2: Walk west 0.1 mi → ② IKEA SF (945 Market)
+│  BUY: bed frame, desk, shelving unit, bedding, lamp
+│  ORDER: delivery to 1017 Leavenworth ($29 IKEA Family / $39 standard)
+│  TIME: ~45 min browse + order
+│  COST: $300–$800 furniture + $29–$39 delivery
+│  HOURS: 11am–7pm daily
+│
+├─ ZAG 3 (OPTIONAL): Uber/Muni south 1.2 mi → ③ Community Thrift (623 Valencia)
+│  HUNT: rugs, lamps, side tables, decor at thrift prices
+│  TIME: ~30 min browse
+│  COST: $20–$100
+│  HOURS: 10am–7pm daily
+│
+└─ ZIG 4: Uber/Muni north 1.5 mi → ★ 1017 Leavenworth
+   ARRIVE: ready for TaskRabbit phase or delivery receipt
+```
+
+### Distance & Time Summary
+
+| Leg | From → To | Distance | Mode | Time |
+|-----|-----------|----------|------|------|
+| ZIG 1 | InterContinental → Target | 0.1 mi | Walk | 3 min |
+| ZIG 2 | Target → IKEA | 0.1 mi | Walk | 3 min |
+| ZAG 3 | IKEA → Community Thrift | 1.2 mi | Uber/Muni | 8 min |
+| ZIG 4 | Community Thrift → 1017 Leavenworth | 1.5 mi | Uber/Muni | 10 min |
+| **TOTAL** | | **~2.9 mi** | | **~25 min transit + ~1.5 hrs shopping** |
+
+**Skip ZAG 3 shortcut:** IKEA → 1017 Leavenworth is only 0.8 mi (5 min Uber), cutting the route to ~1 mi total.
+
+### Cost Optimization by Source
+
+| Item | IKEA | Target | Community Thrift | FB Marketplace |
+|------|------|--------|-----------------|----------------|
+| Bed frame | $149–$349 | — | $30–$80 | $50–$150 |
+| Mattress | $99–$249 | $89–$199 | — | — |
+| Desk | $49–$199 | $60–$120 | $20–$60 | $30–$80 |
+| Shelving | $29–$79 | $25–$60 | $10–$30 | $15–$40 |
+| Bedding set | $25–$60 | $20–$50 | — | — |
+| Lamp | $10–$30 | $10–$25 | $5–$15 | $5–$15 |
+| Rug/carpet | $29–$99 | $25–$80 | $10–$40 | $15–$50 |
+| Cleaning supplies | — | $15–$30 | — | — |
+| Boxes/bags | — | $10–$20 | — | — |
+
+### Recommended Split Strategy
+
+| Source | What to Buy | Est. Cost |
+|--------|------------|-----------|
+| **Target** (Stop 1) | Cleaning supplies, boxes, labels, bedding, lamp | $50–$100 |
+| **IKEA** (Stop 2) | Bed frame, mattress, desk, shelving + delivery | $350–$700 |
+| **Community Thrift** (Stop 3, optional) | Rug, side table, decor, extra lamp | $30–$80 |
+| **TOTAL FURNITURE + SUPPLIES** | | **$430–$880** |
+
+### Arena Play/Coplay Integration
+
+The sourcing zig-zag is itself a **Play** in the arena:
+
+```
+PLAY (sourcing):  You ──traverse──► stores ──select──► items ──order delivery──► 1017 Leavenworth
+                  strategy: zig-zag    state: inventory    action: purchase
+
+COPLAY (feedback): Delivery ETA ──constrains──► TaskRabbit scheduling
+                   reward: cost savings    costate: updated room plan
+```
+
+**Key constraint:** IKEA delivery window determines when to book TaskRabbit Phase 3 (assembly).
+Schedule TaskRabbit assembly for the day after IKEA delivery to avoid idle wait time.
