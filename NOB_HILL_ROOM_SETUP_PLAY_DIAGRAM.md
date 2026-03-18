@@ -254,3 +254,39 @@ COPLAY (feedback): Delivery ETA ──constrains──► TaskRabbit scheduling
 
 **Key constraint:** IKEA delivery window determines when to book TaskRabbit Phase 3 (assembly).
 Schedule TaskRabbit assembly for the day after IKEA delivery to avoid idle wait time.
+
+---
+
+## Live Execution Log — March 18, 2026
+
+### Status: IN PROGRESS
+
+```
+TIMELINE (March 18–19)
+═══════════════════════════════════════════════════════════════
+
+MAR 18 (TODAY) — CLEAN
+├─ ✅ Hotel extended: InterContinental room 820 → through Mar 19 ($404+tax/night)
+├─ ✅ TaskRabbit booked: cleaning at 1017 Leavenworth
+├─ ⏳ WAITING: Courtney confirmation — CALL HER to confirm access
+├─ 🚗 Uber en route: drop-off at 1017 Leavenworth to let TaskRabbit in
+├─ [ ] Phase 1+2 execute: clear + clean room (TODAY)
+│
+MAR 19 (TOMORROW) — FURNITURE
+├─ [ ] Order furniture (IKEA delivery to 1017 Leavenworth)
+├─ [ ] Book TaskRabbit: furniture assembly (~midday)
+├─ [ ] Phase 3 execute: receive delivery + assemble
+└─ TARGET: room livable by midday Mar 19
+```
+
+### Blocking Item
+
+**CALL COURTNEY NOW** — TaskRabbit needs access to 1017 Leavenworth.
+She hasn't replied to text. Phone call required to unblock.
+
+### Additional Errands (can be parallelized)
+
+| Errand | Location | Status |
+|--------|----------|--------|
+| T-Mobile phone plan | Nearby (TBD) | Pending |
+| Furniture order (IKEA/Target) | Zig-zag route above | Tomorrow sourcing run |
